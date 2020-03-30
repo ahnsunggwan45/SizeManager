@@ -32,11 +32,11 @@ class EventListener implements Listener
         Server::getInstance()->getPluginManager()->registerEvents($this, SizeManager::$i);
     }
 
-    /*public function onTeleport(EntityTeleportEvent $event)
+    public function onTeleport(EntityTeleportEvent $event)
     {
         $player = $event->getEntity();
         if ($player instanceof Player) {
-            $preventSizeWorld = ["pvp", "world0", "world1", "world2", "world3", "길드전"];
+            $preventSizeWorld = [];
             $to = $event->getTo();
             if (in_array($to->level->getFolderName(), $preventSizeWorld)) {
                 $player->setScale(1);
@@ -44,17 +44,22 @@ class EventListener implements Listener
                 $player->setScale(SizeManager::getSize($player));
             }
         }
-    }*/
+    }
 
-    /*public function onMove(PlayerMoveEvent $event)
+    public function onMove(PlayerMoveEvent $event)
     {
         if (!$event->getFrom()->equals($event->getTo())) {
             $player = $event->getPlayer();
             $downId = $player->level->getBlock($player->getSide(Vector3::SIDE_DOWN))->getId();
-            //Move To Trampoline Event
+
+            if ($downId === BlockIds::REDSTONE_BLOCK) {
+                $player->setScale(1);
+            } elseif ($downId === BlockIds::LAPIS_BLOCK) {
+                $player->setScale(SizeManager::getSize($player));
+            }
         }
 
-    }*/
+    }
 
     public const MAIN_ID = 77766776;
 
